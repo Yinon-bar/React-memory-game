@@ -32,7 +32,7 @@ function App() {
     setCards(shuffledCards);
     setTurns(0);
   };
-  console.log(cards);
+  console.log(cards, turns);
 
   return (
     <div className="App">
@@ -42,16 +42,8 @@ function App() {
         {cards.map((card) => (
           <div className="card" key={card.id}>
             {console.log(card.src)}
-            <img
-              // className="front"
-              src={card.src}
-              alt=""
-            />
-            <img
-              // className="back"
-              src={cover}
-              alt=""
-            />
+            <img className="front" src={card.src} alt="" />
+            <img className="back" src={cover} alt="" />
           </div>
         ))}
       </div>
