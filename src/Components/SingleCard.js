@@ -1,7 +1,7 @@
 import cover from "../assets/img/cover.png";
 import "./SingleCard.css";
 
-function SingleCard({ card, handleChoice }) {
+function SingleCard({ card, handleChoice, flipped }) {
   const handleClick = (event) => {
     handleChoice(card);
     console.log(event.target);
@@ -9,8 +9,10 @@ function SingleCard({ card, handleChoice }) {
 
   return (
     <div className="card">
-      <img className="front" src={card.src} alt="" />
-      <img className="back" onClick={handleClick} src={cover} alt="" />
+      <div className={flipped ? "flipped" : ""}>
+        <img className="front" src={card.src} alt="" />
+        <img className="back" onClick={handleClick} src={cover} alt="" />
+      </div>
     </div>
   );
 }

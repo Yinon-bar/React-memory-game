@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import helmet from "./assets/img/helmet-1.png";
 import ring from "./assets/img/ring-1.png";
 import scroll from "./assets/img/scroll-1.png";
@@ -9,12 +9,12 @@ import "./App.css";
 import SingleCard from "./Components/SingleCard";
 
 const cardImages = [
-  { src: helmet },
-  { src: ring },
-  { src: scroll },
-  { src: shield },
-  { src: sword },
-  { src: potion },
+  { src: helmet, matched: false },
+  { src: ring, matched: false },
+  { src: scroll, matched: false },
+  { src: shield, matched: false },
+  { src: sword, matched: false },
+  { src: potion, matched: false },
 ];
 
 function App() {
@@ -38,13 +38,47 @@ function App() {
     choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
   };
 
+  useEffect(() => {
+    if (choiceOne && choiceTwo) {
+      if (choiceOne.src === choiceTwo.src) {
+        setCards((prevCards) => {
+          return prevCards.map((card) => {
+            if (card.src === choiceOne.src) {
+              return { ...card, matched: true };
+            } else {
+              return card;
+            }
+          });
+        });
+        resetTurn();
+      } else {
+        setTimeout(() => {
+          resetTurn();
+        }, 650);
+      }
+    }
+  }, [choiceOne, choiceTwo]);
+
+  console.log(cards);
+
+  const resetTurn = () => {
+    setChoiceOne(null);
+    setChoiceTwo(null);
+    setTurns((prevTurns) => prevTurns + 1);
+  };
+
   return (
     <div className="App">
       <h1>Magic Match</h1>
       <button onClick={shuffleCards}>New Game</button>
       <div className="card-grid">
         {cards.map((card) => (
-          <SingleCard key={card.id} card={card} handleChoice={handleChoice} />
+          <SingleCard
+            key={card.id}
+            card={card}
+            handleChoice={handleChoice}
+            flipped={card === choiceOne || card === choiceTwo || card.matched}
+          />
         ))}
       </div>
     </div>
