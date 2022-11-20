@@ -1,10 +1,11 @@
 import cover from "../assets/img/cover.png";
 import "./SingleCard.css";
 
-function SingleCard({ card, handleChoice, flipped }) {
+function SingleCard({ card, handleChoice, flipped, disabled }) {
   const handleClick = (event) => {
-    handleChoice(card);
-    console.log(event.target);
+    if (!disabled) {
+      handleChoice(card);
+    }
   };
 
   return (
